@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\Events\CakeUpdated;
-use App\Models\Cake;
-use App\Observers\CakeObserver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
                 'event.related' => $event->getRelated(),
                 'event.parent' => $event->getParent()
             ]);
-            event(new CakeUpdated($event->getRelated()));
+            event(new CakeUpdated($event->getRelated(), $event->getParent()));
         });
     }
 }

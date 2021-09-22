@@ -34,7 +34,7 @@ class LowStock implements ShouldQueue
     public function handle(CakeUpdated $event)
     {
         try {
-            $this->lowStockService->lowStock($event->cakeId);
+            $this->lowStockService->lowStock($event->cakeId, $event->interested);
         } catch (Exception $exception) {
             Log::warning('listener.LowStock.handle', [
                 'message' => $exception->getMessage(),
