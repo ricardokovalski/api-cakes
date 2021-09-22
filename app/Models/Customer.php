@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Cake extends Model
+class Customer extends Model
 {
     use HasFactory;
 
@@ -18,10 +18,7 @@ class Cake extends Model
      */
     protected $fillable = [
         'name',
-        'weight',
-        'value',
-        'quantity',
-        'active'
+        'email'
     ];
 
     /**
@@ -35,13 +32,22 @@ class Cake extends Model
     /**
      * @return BelongsToMany
      */
-    public function interested(): BelongsToMany
+    public function cakes(): BelongsToMany
     {
         return $this->belongsToMany(
-            Customer::class,
+            Cake::class,
             'customer_cakes',
-            'cake_id',
-            'customer_id'
+            'customer_id',
+            'cake_id'
         )->withTimestamps();
+    }
+
+    public function syncCakes($ids, $detaching = true)
+    {
+        $result = $this->cakes()->sync($ids, $detaching);
+
+        if ($attached = $result['attached']) {
+            static::$dispatcher->dispatch(new Attached($this, $attached));
+        }
     }
 }

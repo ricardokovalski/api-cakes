@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CakeController;
+use App\Http\Controllers\Api\SubscribeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ Route::group(['prefix' => config('api.version')], function() {
         Route::post('/', [CakeController::class, "store"]);
         Route::put('/{id}', [CakeController::class, "update"]);
         Route::delete('/{id}', [CakeController::class, "destroy"]);
+
+        Route::post('/{id}/subscribe', [SubscribeController::class, "subscribe"]);
     });
 
 });
