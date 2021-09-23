@@ -3,6 +3,7 @@
 namespace App\Services\CakeService;
 
 use App\Models\Cake;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -66,9 +67,16 @@ class CakeService implements CakeServiceContract
     /**
      * @param int $id
      * @return bool
+     * @throws Exception
      */
-    public function deleteCake(int $id): bool{
+    public function deleteCake(int $id): bool
+    {
         $cake = $this->getCake($id);
-        return $cake->delete();
+
+        if (! $cake->interested()->where('cake_id', $cake->id)->first()) {
+            return $cake->delete();
+        }
+
+        throw new Exception("Este bolo não pode ser excluído pois há uma lista de clientes interessados. Entre em contato com o Administrador.", 400);
     }
 }

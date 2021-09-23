@@ -17,9 +17,14 @@ class SubscribeResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
-            'email' => $this->email
+            'email' => $this->email,
+            'subscribe' => $this->cakes()
+                ->where('customer_id', $this->id)
+                ->first()
+                ->pivot
+                ->created_at
+                ->toDateTimeString()
         ];
     }
 }

@@ -20,6 +20,43 @@ class SubscribeController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     tags={"Interested"},
+     *     path="/api/v1/cakes/{id}/subscribe",
+     *     @OA\Parameter(
+     *          name ="id",
+     *          in = "path",
+     *          description = "ID of cake to subscribe",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="name",
+     *          description="Name a customer",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="email",
+     *          description="Email a customer",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     summary="Subscribe a customer in cake",
+     *     description="Subscribe a customer in cake",
+     *     @OA\Response(response="200", description="An json"),
+     *     security={
+     *           {"apiKey": {}}
+     *     }
+     * )
      * @param Request $request
      * @param $id
      * @return JsonResponse|object
